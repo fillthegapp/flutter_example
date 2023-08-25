@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_example/dependency/app_dependency.dart';
+import 'package:flutter_example/feature/login/screen/login_screen.dart';
+import 'package:flutter_example/feature/museum_list/screen/museum_list_screen.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class ExampleApp extends StatelessWidget {
   const ExampleApp({super.key});
@@ -7,10 +11,14 @@ class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppDependency(
-        child: MaterialApp(
-      home: Scaffold(
-        body: Center(child: Text('Hello World!')),
-      ),
-    ));
+      child: MaterialApp(
+          navigatorKey: navigatorKey,
+          debugShowMaterialGrid: false,
+          initialRoute: 'login',
+          routes: {
+            'login': (_) => const LoginScreen(),
+            'museum_list': (_) => const MuseumListScreen()
+          }),
+    );
   }
 }
