@@ -16,7 +16,7 @@ class ExampleApp extends StatelessWidget {
           debugShowMaterialGrid: false,
           initialRoute: 'login',
           routes: {
-            'login': (_) => const LoginScreen(),
+            'login': (_) => LoginScreen(),
             'museum_list': (_) => const MuseumListScreen()
           }),
     );
