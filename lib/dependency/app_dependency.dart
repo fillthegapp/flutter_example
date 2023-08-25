@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_example/feature/login/bloc/login_bloc.dart';
+import 'package:flutter_example/repository/auth_repository.dart';
 
 class AppDependency extends StatelessWidget {
   const AppDependency({super.key, required this.child});
@@ -14,7 +15,7 @@ class AppDependency extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(),
+          create: (context) => LoginBloc(AuthRepository()),
         ),
       ],
       child: child,
