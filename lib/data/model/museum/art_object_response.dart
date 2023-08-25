@@ -17,18 +17,28 @@ class ArtObjectResponse {
   @JsonKey(name: 'title')
   final String title;
 
+  @JsonKey(name: 'principalOrFirstMaker')
+  final String principalOrFirstMaker;
+
   @JsonKey(name: 'webImage')
   final ArtObjectWebImageResponse webImage;
 
   factory ArtObjectResponse.fromJson(Map<String, dynamic> json) =>
       _$ArtObjectResponseFromJson(json);
 
-  ArtObjectResponse(this.links, this.id, this.title, this.webImage);
+  ArtObjectResponse(
+    this.links,
+    this.id,
+    this.title,
+    this.webImage,
+    this.principalOrFirstMaker,
+  );
 
   ArtObjectModel toDomain() {
     return ArtObjectModel(
       id: id,
       title: title,
+      author: principalOrFirstMaker,
       image: webImage.url,
       link: links.web,
     );

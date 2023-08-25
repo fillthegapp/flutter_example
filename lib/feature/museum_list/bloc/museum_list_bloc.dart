@@ -23,6 +23,7 @@ class MuseumListBloc extends Bloc<MuseumListEvent, MuseumListState> {
 
     on<MuseumItemClickedEvent>((event, emit) async {
       // TODO: navigate / send tracking / other thing
+      print('Clicked ${event.item.id}');
     });
   }
 }

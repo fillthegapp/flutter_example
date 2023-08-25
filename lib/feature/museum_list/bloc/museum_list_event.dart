@@ -12,10 +12,10 @@ class LoadMuseumItemsEvent extends MuseumListEvent {
 }
 
 class MuseumItemClickedEvent extends MuseumListEvent {
-  final ArtObjectModel items;
+  final ArtObjectModel item;
 
-  const MuseumItemClickedEvent({required this.items});
+  const MuseumItemClickedEvent({required this.item});
 
   @override
-  List<Object> get props => [items];
+  List<Object> get props => [item];
 }

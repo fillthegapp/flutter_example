@@ -13,6 +13,7 @@ ArtObjectResponse _$ArtObjectResponseFromJson(Map<String, dynamic> json) =>
       json['title'] as String,
       ArtObjectWebImageResponse.fromJson(
           json['webImage'] as Map<String, dynamic>),
+      json['principalOrFirstMaker'] as String,
     );
 
 Map<String, dynamic> _$ArtObjectResponseToJson(ArtObjectResponse instance) =>
@@ -20,5 +21,6 @@ Map<String, dynamic> _$ArtObjectResponseToJson(ArtObjectResponse instance) =>
       'links': instance.links,
       'id': instance.id,
       'title': instance.title,
+      'principalOrFirstMaker': instance.principalOrFirstMaker,
       'webImage': instance.webImage,
     };
