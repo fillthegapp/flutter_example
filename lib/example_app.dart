@@ -15,7 +15,7 @@ class ExampleApp extends StatelessWidget {
         navigatorKey: navigatorKey,
         debugShowMaterialGrid: false,
         debugShowCheckedModeBanner: false,
-        initialRoute: 'login',
+        initialRoute: 'museum_list',
         routes: {
           'login': (_) => const LoginScreen(),
           'museum_list': (_) => const MuseumListScreen()
