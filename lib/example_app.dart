@@ -16,6 +16,7 @@ class ExampleApp extends StatelessWidget {
       child: MaterialApp(
           navigatorKey: navigatorKey,
           debugShowMaterialGrid: false,
+          debugShowCheckedModeBanner: false,
           initialRoute: 'login',
           routes: {
             'login': (_) => RepositoryProvider(
