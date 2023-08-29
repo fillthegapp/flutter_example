@@ -12,13 +12,15 @@ class ExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppDependency(
       child: MaterialApp(
-          navigatorKey: navigatorKey,
-          debugShowMaterialGrid: false,
-          initialRoute: 'login',
-          routes: {
-            'login': (_) => const LoginScreen(),
-            'museum_list': (_) => const MuseumListScreen()
-          }),
+        navigatorKey: navigatorKey,
+        debugShowMaterialGrid: false,
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'login',
+        routes: {
+          'login': (_) => const LoginScreen(),
+          'museum_list': (_) => const MuseumListScreen()
+        },
+      ),
     );
   }
 }
