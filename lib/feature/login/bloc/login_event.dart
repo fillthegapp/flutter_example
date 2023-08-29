@@ -7,6 +7,13 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnBiometricCheckNeed extends LoginEvent {
+  const OnBiometricCheckNeed();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class OnEmailChangedEvent extends LoginEvent {
   final String email;
 
@@ -25,4 +32,9 @@ class OnPinChangedEvent extends LoginEvent {
   List<Object?> get props => [pin];
 }
 
-class OnLoginButtonClickEvent extends LoginEvent {}
+class OnLoginButtonClickEvent extends LoginEvent {
+  const OnLoginButtonClickEvent();
+
+  @override
+  List<Object?> get props => [];
+}

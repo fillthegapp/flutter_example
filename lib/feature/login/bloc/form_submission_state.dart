@@ -2,7 +2,11 @@ abstract class FormSubmissionState {
   const FormSubmissionState();
 }
 
+class FormCheckingState extends FormSubmissionState {}
+
 class FormInitialState extends FormSubmissionState {}
+
+class FormBiometricState extends FormSubmissionState {}
 
 class FormInvalidUser extends FormSubmissionState {}
 

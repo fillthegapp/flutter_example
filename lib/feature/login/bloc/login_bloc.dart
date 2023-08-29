@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_example/feature/login/bloc/form_submission_state.dart';
 import 'package:flutter_example/repository/auth_repository.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -10,12 +12,40 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
 
   LoginBloc(this.authRepository)
-      : super(LoginState(formStatus: FormInitialState())) {
+      : super(LoginState(formStatus: FormCheckingState())) {
+    on<OnBiometricCheckNeed>((event, emit) async {
+      if (state.formStatus is FormCheckingState) {
+        if (await authRepository.getLogged()) {
+          final LocalAuthentication auth = LocalAuthentication();
+          final bool canAuthenticateWithBiometrics =
+              await auth.canCheckBiometrics;
+
+          if (!canAuthenticateWithBiometrics) {
+            emit(LoginState(formStatus: FormInitialState()));
+          }
+
+          try {
+            final bool didAuthenticate = await auth.authenticate(
+                localizedReason: 'Please authenticate to show account balance');
+            if (didAuthenticate) {
+              emit(LoginState(formStatus: FormSubmitSuccessState()));
+            } else {
+              emit(LoginState(formStatus: FormInitialState()));
+            }
+          } on PlatformException {
+            emit(LoginState(formStatus: FormInitialState()));
+          }
+        } else {
+          emit(LoginState(formStatus: FormInitialState()));
+        }
+      }
+    });
+
     on<OnEmailChangedEvent>((event, emit) {
       if ((state.formStatus is FormInitialState) ||
           (state.formStatus is FormInvalidUser)) {
         if (isValidEmail(event.email)) {
-          emit(LoginState(email: event.email, formStatus: state.formStatus));
+          emit(LoginState(email: event.email, formStatus: FormInitialState()));
         } else {
           emit(LoginState(email: event.email, formStatus: FormInvalidUser()));
         }
@@ -23,9 +53,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 
     on<OnPinChangedEvent>((event, emit) {
-      if (state.formStatus is FormInitialState) {
+      if ((state.formStatus is FormInitialState) ||
+          (state.formStatus is FormInvalidPin)) {
         if (isValidPin(event.pin)) {
-          emit(LoginState(pin: event.pin, formStatus: state.formStatus));
+          emit(LoginState(pin: event.pin, formStatus: FormInitialState()));
         } else {
           emit(LoginState(pin: event.pin, formStatus: FormInvalidPin()));
         }

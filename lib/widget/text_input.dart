@@ -7,7 +7,7 @@ class TextInput extends StatelessWidget {
   final int maxLength;
   final Icon icon;
   final TextInputType inputType;
-  final Function(String?) validateText;
+  final String? Function(String?) validateText;
   final Function onChangeText;
 
   const TextInput(
@@ -32,7 +32,7 @@ class TextInput extends StatelessWidget {
         icon: icon,
         hintText: text,
       ),
-      validator: (value) => validateText(value),
+      validator: validateText,
       onChanged: (value) => onChangeText(value),
     );
   }

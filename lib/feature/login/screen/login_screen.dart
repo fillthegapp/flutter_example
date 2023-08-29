@@ -10,32 +10,40 @@ class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   LoginScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        // Create screen depending on state
-        if (state.formStatus is FormInitialState) {
-          return Scaffold(body: _loginForm(context));
-        } else if (state.formStatus is FormInvalidUser) {
-          return Scaffold(body: _loginFormInvalidUser(context));
-        } else if (state.formStatus is FormInvalidPin) {
-          return Scaffold(body: _loginFormInvalidPin(context));
-        } else if (state.formStatus is FormSubmittingState) {
-          return Scaffold(body: _loginFormLoading(context));
-        } else if (state.formStatus is FormSubmitSuccessState) {
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state.formStatus is FormSubmitSuccessState) {
           Navigator.pushReplacementNamed(context, 'museum_list');
-          return Container();
-        } else {
-          return Scaffold(body: _loginForm(context));
         }
       },
+      child: BlocBuilder<LoginBloc, LoginState>(
+        builder: (context, state) {
+          // Create screen depending on state
+          if (state.formStatus is FormInitialState) {
+            return Scaffold(body: _loginForm(context));
+          } else if (state.formStatus is FormCheckingState) {
+            context.read<LoginBloc>().add(const OnBiometricCheckNeed());
+            return const Scaffold(
+                body: Center(child: CircularProgressIndicator()));
+          } else if (state.formStatus is FormInvalidUser) {
+            return Scaffold(body: _loginFormInvalidUser(context));
+          } else if (state.formStatus is FormInvalidPin) {
+            return Scaffold(body: _loginFormInvalidPin(context));
+          } else if (state.formStatus is FormSubmittingState) {
+            return Scaffold(body: _loginFormLoading(context));
+          } else {
+            return Scaffold(body: _loginForm(context));
+          }
+        },
+      ),
     );
   }
 
   Widget _loginForm(BuildContext context) {
     return Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -47,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                     text: 'Email',
                     icon: const Icon(Icons.person),
-                    validateText: (value) => {print('validate initial')},
+                    validateText: (value) => null,
                     onChangeText: (value) => {
                           context
                               .read<LoginBloc>()
@@ -63,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                   text: 'Pin',
                   icon: const Icon(Icons.security),
-                  validateText: (value) => {},
+                  validateText: (value) => null,
                   onChangeText: (value) => {
                     context.read<LoginBloc>().add(OnPinChangedEvent(pin: value))
                   },
@@ -76,12 +84,14 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
-                    text: 'Submit',
-                    onClickButton: () => {
-                          context
-                              .read<LoginBloc>()
-                              .add(OnLoginButtonClickEvent())
-                        }),
+                  text: 'Submit',
+                  onClickButton: () => {
+                    context
+                        .read<LoginBloc>()
+                        .add(const OnLoginButtonClickEvent())
+                  },
+                  isDisabled: false,
+                ),
               )
             ],
           ),
@@ -90,6 +100,7 @@ class LoginScreen extends StatelessWidget {
 
   Widget _loginFormInvalidUser(BuildContext context) {
     return Form(
+        autovalidateMode: AutovalidateMode.always,
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -101,8 +112,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                     text: 'Email',
                     icon: const Icon(Icons.person),
-                    validateText: (value) =>
-                        {print('validate the invalid user')},
+                    validateText: (value) => 'Invalid email',
                     onChangeText: (value) => {
                           context
                               .read<LoginBloc>()
@@ -118,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                   text: 'Pin',
                   icon: const Icon(Icons.security),
-                  validateText: (value) => {},
+                  validateText: (value) => null,
                   onChangeText: (value) => {
                     context.read<LoginBloc>().add(OnPinChangedEvent(pin: value))
                   },
@@ -131,12 +141,14 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
-                    text: 'Submit',
-                    onClickButton: () => {
-                          context
-                              .read<LoginBloc>()
-                              .add(OnLoginButtonClickEvent())
-                        }),
+                  text: 'Submit',
+                  onClickButton: () => {
+                    context
+                        .read<LoginBloc>()
+                        .add(const OnLoginButtonClickEvent())
+                  },
+                  isDisabled: true,
+                ),
               )
             ],
           ),
@@ -156,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                     text: 'Email',
                     icon: const Icon(Icons.person),
-                    validateText: (value) => {},
+                    validateText: (value) => null,
                     onChangeText: (value) => {
                           context
                               .read<LoginBloc>()
@@ -172,7 +184,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                   text: 'Pin',
                   icon: const Icon(Icons.security),
-                  validateText: (value) => {print('validate the invalid pin')},
+                  validateText: (value) => null,
                   onChangeText: (value) => {
                     context.read<LoginBloc>().add(OnPinChangedEvent(pin: value))
                   },
@@ -185,12 +197,12 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
-                    text: 'Submit',
-                    onClickButton: () => {
-                          context
-                              .read<LoginBloc>()
-                              .add(OnLoginButtonClickEvent())
-                        }),
+                  text: 'Submit',
+                  onClickButton: () => {
+                    context.read<LoginBloc>().add(OnLoginButtonClickEvent())
+                  },
+                  isDisabled: true,
+                ),
               )
             ],
           ),
@@ -210,7 +222,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                     text: 'Email',
                     icon: const Icon(Icons.person),
-                    validateText: (value) => {print('validate')},
+                    validateText: (value) => null,
                     onChangeText: (value) => {
                           context
                               .read<LoginBloc>()
@@ -226,7 +238,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInput(
                   text: 'Pin',
                   icon: const Icon(Icons.security),
-                  validateText: (value) => {},
+                  validateText: (value) => null,
                   onChangeText: (value) => {
                     context.read<LoginBloc>().add(OnPinChangedEvent(pin: value))
                   },
