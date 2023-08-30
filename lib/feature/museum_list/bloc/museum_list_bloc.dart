@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_example/analytics/Analytics.dart';
 import 'package:flutter_example/data/repository/museum_repository.dart';
 import 'package:flutter_example/domain/model/art_object_model.dart';
 
@@ -23,6 +25,13 @@ class MuseumListBloc extends Bloc<MuseumListEvent, MuseumListState> {
 
     on<MuseumItemClickedEvent>((event, emit) async {
       // TODO: navigate / send tracking / other thing
+      try {
+        final String result = await Analytics.sendAnalytics("art_clicked", event.item.id);
+        print(result);
+      } on PlatformException catch (e) {
+        print("Failed to send event to Amplitude: '${e.message}'.");
+      }
+
       print('Clicked ${event.item.id}');
     });
   }

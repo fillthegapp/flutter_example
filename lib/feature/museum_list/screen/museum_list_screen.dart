@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_example/domain/model/art_object_model.dart';
 import 'package:flutter_example/feature/common/error/generic_error.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_example/feature/museum_list/bloc/museum_list_bloc.dart';
 import 'package:flutter_example/feature/museum_list/screen/art_object_card.dart';
 
 class MuseumListScreen extends StatelessWidget {
+  static const platform = MethodChannel('museum.list.test/flutter');
   const MuseumListScreen({super.key});
 
   @override
