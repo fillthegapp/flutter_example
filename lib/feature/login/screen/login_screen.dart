@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.formStatus is FormSubmitSuccessState) {
           Navigator.pushReplacementNamed(context, 'museum_list');
         }
