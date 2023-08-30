@@ -41,7 +41,9 @@ class _Screen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text("Flutter app"),
+        ),
         body: body,
       ),
     );

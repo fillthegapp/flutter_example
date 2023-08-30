@@ -7,11 +7,34 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnBiometricCheckNeed extends LoginEvent {
+  const OnBiometricCheckNeed();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class OnEmailChangedEvent extends LoginEvent {
   final String email;
 
-  OnEmailChangedEvent({required this.email});
+  const OnEmailChangedEvent({required this.email});
 
   @override
   List<Object?> get props => [email];
+}
+
+class OnPinChangedEvent extends LoginEvent {
+  final String pin;
+
+  const OnPinChangedEvent({required this.pin});
+
+  @override
+  List<Object?> get props => [pin];
+}
+
+class OnLoginButtonClickEvent extends LoginEvent {
+  const OnLoginButtonClickEvent();
+
+  @override
+  List<Object?> get props => [];
 }
