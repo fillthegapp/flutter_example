@@ -11,10 +11,12 @@ class AppDependency extends StatelessWidget {
   AppDependency({super.key, required this.child}) {
     _museumApi = MuseumApi(MuseumNetworkClient());
     _museumRepository = MuseumRepository(_museumApi);
+    _authRepository = AuthRepository();
   }
 
   late final MuseumApi _museumApi;
   late final MuseumRepository _museumRepository;
+  late final AuthRepository _authRepository;
 
   final Widget child;
 
@@ -23,7 +25,7 @@ class AppDependency extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(AuthRepository()),
+          create: (context) => LoginBloc(_authRepository),
         ),
         BlocProvider<MuseumListBloc>(
           create: (_) => MuseumListBloc(_museumRepository)

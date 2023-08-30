@@ -44,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnEmailChangedEvent>((event, emit) {
       if ((state.formStatus is FormInitialState) ||
           (state.formStatus is FormInvalidUser)) {
-        if (isValidEmail(event.email)) {
+        if (_isValidEmail(event.email)) {
           emit(LoginState(email: event.email, formStatus: FormInitialState()));
         } else {
           emit(LoginState(email: event.email, formStatus: FormInvalidUser()));
@@ -55,7 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnPinChangedEvent>((event, emit) {
       if ((state.formStatus is FormInitialState) ||
           (state.formStatus is FormInvalidPin)) {
-        if (isValidPin(event.pin)) {
+        if (_isValidPin(event.pin)) {
           emit(LoginState(pin: event.pin, formStatus: FormInitialState()));
         } else {
           emit(LoginState(pin: event.pin, formStatus: FormInvalidPin()));
@@ -75,14 +75,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
   }
 
-  bool isValidEmail(String email) {
+  bool _isValidEmail(String email) {
     String pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(email);
   }
 
-  bool isValidPin(String pin) {
+  bool _isValidPin(String pin) {
     return (pin.length == 4);
   }
 }
