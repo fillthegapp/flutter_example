@@ -24,10 +24,8 @@ class MuseumListBloc extends Bloc<MuseumListEvent, MuseumListState> {
     });
 
     on<MuseumItemClickedEvent>((event, emit) async {
-      // TODO: navigate / send tracking / other thing
       try {
-        final String result = await Analytics.sendAnalytics("art_clicked", event.item.id);
-        print(result);
+        await Analytics.sendAnalytics("art_clicked", event.item.id);
       } on PlatformException catch (e) {
         print("Failed to send event to Amplitude: '${e.message}'.");
       }
