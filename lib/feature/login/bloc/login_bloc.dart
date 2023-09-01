@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_example/feature/login/bloc/form_submission_state.dart';
-import 'package:flutter_example/repository/auth_repository.dart';
+import 'package:flutter_example/data/repository/auth_repository.dart';
 import 'package:local_auth/local_auth.dart';
 
 part 'login_event.dart';
@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           try {
             final bool didAuthenticate = await auth.authenticate(
-                localizedReason: 'Please authenticate to show account balance');
+                localizedReason: 'Please authenticate to enter the app');
             if (didAuthenticate) {
               emit(LoginState(formStatus: FormSubmitSuccessState()));
             } else {
@@ -37,6 +37,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           }
         } else {
           emit(LoginState(formStatus: FormInitialState()));
+        }
+      }
+
+      if (state.formStatus is FormBiometricSetup) {
+        final LocalAuthentication auth = LocalAuthentication();
+        final bool canAuthenticateWithBiometrics =
+            await auth.canCheckBiometrics;
+
+        if (!canAuthenticateWithBiometrics) {
+          emit(LoginState(formStatus: FormSubmitSuccessState()));
+        } else {
+          try {
+            final bool didAuthenticate = await auth.authenticate(
+                localizedReason: 'Please authenticate to enter the app');
+
+            emit(LoginState(formStatus: FormSubmitSuccessState()));
+          } on PlatformException {
+            emit(LoginState(formStatus: FormSubmitSuccessState()));
+          }
         }
       }
     });
@@ -68,7 +87,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       try {
         await authRepository.login();
-        emit(LoginState(formStatus: FormSubmitSuccessState()));
+        emit(LoginState(formStatus: FormBiometricSetup()));
       } catch (e) {
         emit(LoginState(formStatus: FormSubmitFailedState(e as Exception)));
       }

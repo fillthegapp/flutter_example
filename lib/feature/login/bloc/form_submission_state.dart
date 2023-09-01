@@ -8,6 +8,8 @@ class FormInitialState extends FormSubmissionState {}
 
 class FormBiometricState extends FormSubmissionState {}
 
+class FormBiometricSetup extends FormSubmissionState {}
+
 class FormInvalidUser extends FormSubmissionState {}
 
 class FormInvalidPin extends FormSubmissionState {}

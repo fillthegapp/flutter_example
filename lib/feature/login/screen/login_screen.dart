@@ -17,6 +17,10 @@ class LoginScreen extends StatelessWidget {
         if (state.formStatus is FormSubmitSuccessState) {
           Navigator.pushReplacementNamed(context, 'museum_list');
         }
+
+        if (state.formStatus is FormBiometricSetup) {
+          context.read<LoginBloc>().add(const OnBiometricCheckNeed());
+        }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {

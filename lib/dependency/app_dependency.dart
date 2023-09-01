@@ -4,7 +4,7 @@ import 'package:flutter_example/data/api/museum_api.dart';
 import 'package:flutter_example/data/networking/museum_network_client.dart';
 import 'package:flutter_example/data/repository/museum_repository.dart';
 import 'package:flutter_example/feature/login/bloc/login_bloc.dart';
-import 'package:flutter_example/repository/auth_repository.dart';
+import 'package:flutter_example/data/repository/auth_repository.dart';
 import 'package:flutter_example/feature/museum_list/bloc/museum_list_bloc.dart';
 
 class AppDependency extends StatelessWidget {
