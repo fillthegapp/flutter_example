@@ -12,3 +12,12 @@ In this repository you can find a simple solution with the following features:
 
  This project applies a Bloc architecture, inspired on the same separation of concerns recommended by Google that follows quite close the Android MVVM pattern.
 
+ ![image](https://github.com/fillthegapp/flutter_example/assets/83236740/03c132c2-1937-43e5-9665-02261635d114)
+
+ Link: https://bloclibrary.dev/#/architecture
+
+
+  ## Other features to highlight
+
+  * SSL Pinning
+    * In museum_network_client.dart file you can find a CertificatePinningInterceptor where it is possible to pass the SHAfingerprint to enable SSL Pinning.
