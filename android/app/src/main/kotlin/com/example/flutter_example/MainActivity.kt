@@ -1,6 +1,5 @@
 package com.example.flutter_example
 
-import android.util.Log
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
 import io.flutter.embedding.android.FlutterFragmentActivity
@@ -34,7 +33,6 @@ class MainActivity : FlutterFragmentActivity() {
                 )
                 result.success("ok")
             } else {
-                Log.d("Emilio", "Not implemented")
                 result.notImplemented()
             }
         }
