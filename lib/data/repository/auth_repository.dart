@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthRepository {
   Future<void> login() async {
     print('start login');
-    setLogged();
+    setLogged(true);
     await Future.delayed(const Duration(seconds: 2));
     print('log in done');
   }
@@ -13,8 +13,8 @@ class AuthRepository {
     return prefs.getBool('userLogged') ?? false;
   }
 
-  void setLogged() async {
+  void setLogged(bool state) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('userLogged', true);
+    prefs.setBool('userLogged', state);
   }
 }
