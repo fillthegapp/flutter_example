@@ -12,7 +12,7 @@ In this repository you can find a simple solution with the following features:
 
  This project applies a Bloc architecture, inspired on the same separation of concerns recommended by Google that follows quite close the Android MVVM pattern.
 
- ![image](https://github.com/fillthegapp/flutter_example/assets/83236740/03c132c2-1937-43e5-9665-02261635d114)
+ ![image](https://bloclibrary.dev/assets/architecture.png)
 
  Link: https://bloclibrary.dev/#/architecture
 
